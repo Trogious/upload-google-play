@@ -77,6 +77,7 @@ async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): 
     // Check the 'track' for 'internalsharing', if so switch to a non-track api
     if (options.track === 'internalsharing') {
         core.debug("Track is Internal app sharing, switch to special upload api")
+        core.info("Track is Internal app sharing, switch to special upload api")
         for (const releaseFile of releaseFiles) {
             core.debug(`Uploading ${releaseFile}`);
             const url = await uploadInternalSharingRelease(options, releaseFile)
@@ -98,7 +99,10 @@ async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): 
             core.setOutput("internalSharingDownloadUrl", url);
             core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URL", url);
             internalSharingDownloadUrls.push(url);
+            core.info(`verCode: ${versionCode}`)
             lastVersionCode = versionCode
+            core.info(`verCode1: ${versionCode}`)
+            core.info(`verCode2: ${lastVersionCode}`)
         }
 
         // Add the uploaded artifacts to the Edit track
@@ -386,7 +390,7 @@ async function uploadReleaseFiles(appEditId: string, options: EditOptions, relea
     const versionCodes: number[] = []
     // Upload all release files
     for (const releaseFile of releaseFiles) {
-        core.info(`Uploading ${releaseFile}`)
+        core.info(`UploadingRF ${releaseFile}`)
         let versionCode: number
         if (releaseFile.endsWith('.apk')) {
             // Upload APK, or throw when something goes wrong
