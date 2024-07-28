@@ -113,11 +113,13 @@ async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): 
             changesNotSentForReview: options.changesNotSentForReview
         });
 
+        core.info(`vCode: ${lastVersionCode}`);
+
         // Simple check to see whether commit was successful
         if (res.data.id) {
             core.info(`Successfully committed ${res.data.id}`);
-            if (lastVersionCode !== null) {
-                core.setOutput("versionCode", lastVersionCode); // set only when commit successful
+            if (lastVersionCode !== null) { // set only when commit successful
+                core.setOutput("versionCode", lastVersionCode);
             }
             return res.data.id
         } else {
